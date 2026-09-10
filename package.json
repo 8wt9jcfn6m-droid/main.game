@@ -1,0 +1,14 @@
+{
+  "name": "mine-game-server",
+  "version": "1.0.0",
+  "description": "TikTok LIVE mine game server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "ws": "^8.18.3",
+    "tiktok-live-connector": "^2.1.0"
+  }
+}
