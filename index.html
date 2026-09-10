@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>النجاة من اللغم</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    font-family: Arial, sans-serif;
+
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            #17255c,
+            #070914 45%,
+            #02030a
+        );
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    overflow-x: hidden;
+}
+
+
+.container {
+
+    width: 94%;
+
+    max-width: 720px;
+
+    text-align: center;
+
+    padding: 20px 0;
+}
+
+
+/* =========================
+   الشعار
+========================= */
+
+.logo {
+
+    font-size: 42px;
+
+    font-weight: 900;
+
+    color: #00ffff;
+
+    text-shadow:
+        0 0 5px #00ffff,
+        0 0 15px #00ffff,
+        0 0 35px #0066ff,
+        0 0 60px #0066ff;
+
+    margin-bottom: 5px;
+}
+
+
+.subtitle {
+
+    color: #aaa;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   الشاشات
+========================= */
+
+.screen {
+
+    display: none;
+}
+
+
+.screen.active {
+
+    display: block;
+}
+
+
+/* =========================
+   الكرت
+========================= */
+
+.card {
+
+    padding: 25px;
+
+    border-radius: 22px;
+
+    background:
+        rgba(5, 10, 30, 0.8);
+
+    border: 1px solid #00ffff;
+
+    box-shadow:
+        0 0 15px rgba(0,255,255,.25),
+        inset 0 0 30px rgba(0,255,255,.05);
+}
+
+
+.card h2 {
+
+    color: #00ffff;
+
+    text-shadow:
+        0 0 10px #00ffff;
+}
+
+
+/* =========================
+   مستويات الصعوبة
+========================= */
+
+.difficulties {
+
+    display: grid;
+
+    gap: 12px;
+
+    margin: 20px 0;
+}
+
+
+.diff {
+
+    padding: 16px;
+
+    border-radius: 15px;
+
+    border: 1px solid #333;
+
+    background: #0b1024;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+
+.diff:hover,
+.diff.selected {
+
+    border-color: #00ffff;
+
+    box-shadow:
+        0 0 15px rgba(0,255,255,.5);
+
+    transform: scale(1.02);
+}
+
+
+.diff span {
+
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 13px;
+
+    color: #888;
+}
+
+
+/* =========================
+   الزر الرئيسي
+========================= */
+
+.mainButton {
+
+    width: 100%;
+
+    padding: 16px;
+
+    border: 0;
+
+    border-radius: 15px;
+
+    background: #00ffff;
+
+    color: #001015;
+
+    font-size: 18px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 10px #00ffff,
+        0 0 30px rgba(0,255,255,.4);
+}
+
+
+.mainButton:active {
+
+    transform: scale(.96);
+}
+
+
+/* =========================
+   الإحصائيات
+========================= */
+
+.stats {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 8px;
+
+    margin-bottom: 15px;
+}
+
+
+.stat {
+
+    padding: 10px 5px;
+
+    border-radius: 13px;
+
+    background:
+        rgba(0,255,255,.05);
+
+    border: 1px solid #00ffff;
+
+    box-shadow:
+        0 0 10px rgba(0,255,255,.15);
+}
+
+
+.stat small {
+
+    display: block;
+
+    color: #888;
+
+    font-size: 11px;
+}
+
+
+.stat strong {
+
+    display: block;
+
+    margin-top: 4px;
+
+    color: #00ffff;
+
+    font-size: 20px;
+}
+
+
+/* =========================
+   الكومبو
+========================= */
+
+.combo {
+
+    min-height: 28px;
+
+    color: #ffea00;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    text-shadow:
+        0 0 10px #ffea00;
+}
+
+
+/* =========================
+   الرسالة
+========================= */
+
+.message {
+
+    min-height: 30px;
+
+    margin: 8px;
+
+    font-size: 17px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   لوحة اللعبة
+========================= */
+
+#game {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 9px;
+
+    margin: 15px auto;
+}
+
+
+/* =========================
+   الأزرار
+========================= */
+
+.cell {
+
+    aspect-ratio: 1;
+
+    border-radius: 13px;
+
+    border: 2px solid #00ffff;
+
+    background:
+        linear-gradient(
+            145deg,
+            #111a3d,
+            #070b18
+        );
+
+    color: #00ffff;
+
+    font-size: 24px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    box-shadow:
+        inset 0 0 12px rgba(0,255,255,.1),
+        0 0 8px rgba(0,255,255,.12);
+
+    transition: .15s;
+}
+
+
+.cell:active {
+
+    transform: scale(.88);
+}
+
+
+.cell.safe {
+
+    border-color: #00ff9d;
+
+    color: #00ff9d;
+
+    background: #06251d;
+
+    box-shadow:
+        0 0 15px #00ff9d,
+        0 0 30px rgba(0,255,157,.4);
+}
+
+
+.cell.mine {
+
+    border-color: #ff1744;
+
+    color: #ff1744;
+
+    background: #360812;
+
+    box-shadow:
+        0 0 15px #ff1744,
+        0 0 40px rgba(255,23,68,.7);
+
+    animation:
+        explode .4s infinite alternate;
+}
+
+
+@keyframes explode {
+
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.08);
+    }
+
+}
+
+
+/* =========================
+   تحذير الوقت
+========================= */
+
+.warning {
+
+    color: #ff1744 !important;
+
+    animation:
+        blink .5s infinite alternate;
+}
+
+
+@keyframes blink {
+
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: .3;
+    }
+
+}
+
+
+/* =========================
+   شاشة النتيجة
+========================= */
+
+.result {
+
+    padding: 25px;
+
+    border-radius: 22px;
+
+    border: 1px solid #00ffff;
+
+    background:
+        rgba(0,0,0,.35);
+
+    box-shadow:
+        0 0 30px rgba(0,255,255,.2);
+}
+
+
+.resultIcon {
+
+    font-size: 70px;
+}
+
+
+.result h1 {
+
+    color: #00ffff;
+
+    text-shadow:
+        0 0 15px #00ffff;
+}
+
+
+.finalScore {
+
+    font-size: 35px;
+
+    color: #ffea00;
+
+    text-shadow:
+        0 0 15px #ffea00;
+}
+
+
+/* =========================
+   قائمة اللاعبين
+========================= */
+
+.players {
+
+    margin-top: 18px;
+
+    padding: 15px;
+
+    border-radius: 18px;
+
+    border: 1px solid #7b2cff;
+
+    background:
+        rgba(123,44,255,.07);
+
+    box-shadow:
+        0 0 20px rgba(123,44,255,.2);
+}
+
+
+.players h2 {
+
+    margin-top: 0;
+
+    color: #c58cff;
+
+    text-shadow:
+        0 0 10px #7b2cff;
+}
+
+
+.player {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 10px 12px;
+
+    margin: 6px 0;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,.05);
+}
+
+
+.player b {
+
+    color: #00ffff;
+}
+
+
+/* =========================
+   للجوال والآيباد
+========================= */
+
+@media(max-width:500px) {
+
+    .logo {
+
+        font-size: 32px;
+    }
+
+    #game {
+
+        gap: 6px;
+    }
+
+    .cell {
+
+        font-size: 19px;
+
+        border-radius: 9px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+<div id="startScreen"
+class="screen active">
+
+    <div class="logo">
+        💣 النجاة من اللغم
+    </div>
+
+    <div class="subtitle">
+        لا تضغط اللغم... إذا تقدر 😈
+    </div>
+
+    <div class="card">
+
+        <h2>
+            اختر مستوى الصعوبة
+        </h2>
+
+        <div class="difficulties">
+
+            <button
+            class="diff selected"
+            data-level="easy">
+
+                🟢 سهل
+
+                <span>
+                    20 زر • لغم واحد • 60 ثانية
+                </span>
+
+            </button>
+
+            <button
+            class="diff"
+            data-level="medium">
+
+                🟡 متوسط
+
+                <span>
+                    20 زر • 3 ألغام • 45 ثانية
+                </span>
+
+            </button>
+
+            <button
+            class="diff"
+            data-level="hard">
+
+                🔴 صعب
+
+                <span>
+                    20 زر • 5 ألغام • 30 ثانية
+                </span>
+
+            </button>
+
+        </div>
+
+        <button
+        class="mainButton"
+        onclick="startGame()">
+
+            🚀 ابدأ اللعبة
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<div id="gameScreen"
+class="screen">
+
+    <div class="logo">
+        💣 النجاة من اللغم
+    </div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <small>النقاط</small>
+            <strong id="score">0</strong>
+        </div>
+
+        <div class="stat">
+            <small>الوقت</small>
+            <strong id="timer">60</strong>
+        </div>
+
+        <div class="stat">
+            <small>الألغام</small>
+            <strong id="mineCount">1</strong>
+        </div>
+
+        <div class="stat">
+            <small>المتبقي</small>
+            <strong id="remaining">20</strong>
+        </div>
+
+    </div>
+
+    <div id="combo"
+    class="combo">
+    </div>
+
+    <div id="message"
+    class="message">
+        اختر أول زر 🔥
+    </div>
+
+    <div id="game"></div>
+
+    <button
+    class="mainButton"
+    onclick="backToStart()">
+        ⬅️ خروج
+    </button>
+
+    <div class="players">
+
+        <h2>🏆 المتصدرين</h2>
+
+        <div id="playerList"></div>
+
+    </div>
+
+</div>
+
+
+<div id="resultScreen"
+class="screen">
+
+    <div class="result">
+
+        <div id="resultIcon"
+        class="resultIcon">
+            💥
+        </div>
+
+        <h1 id="resultTitle">
+            خسرت!
+        </h1>
+
+        <p id="resultText">
+            انفجر اللغم!
+        </p>
+
+        <div class="finalScore">
+
+            <span id="finalScore">
+                0
+            </span>
+
+            نقطة
+
+        </div>
+
+        <br>
+
+        <button
+        class="mainButton"
+        onclick="startGame()">
+            🔄 العب مرة ثانية
+        </button>
+
+        <br>
+        <br>
+
+        <button
+        class="mainButton"
+        onclick="backToStart()">
+            🏠 القائمة الرئيسية
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const levels = {
+
+    easy: {
+        mines: 1,
+        time: 60,
+        points: 10
+    },
+
+    medium: {
+        mines: 3,
+        time: 45,
+        points: 20
+    },
+
+    hard: {
+        mines: 5,
+        time: 30,
+        points: 30
+    }
+
+};
+
+
+let selectedLevel = "easy";
+
+let currentLevel;
+
+let mines = [];
+
+let score = 0;
+
+let timeLeft = 60;
+
+let clicked = 0;
+
+let combo = 0;
+
+let gameOver = false;
+
+let timerInterval;
+
+
+const startScreen =
+document.getElementById("startScreen");
+
+const gameScreen =
+document.getElementById("gameScreen");
+
+const resultScreen =
+document.getElementById("resultScreen");
+
+const game =
+document.getElementById("game");
+
+const scoreText =
+document.getElementById("score");
+
+const timerText =
+document.getElementById("timer");
+
+const mineCountText =
+document.getElementById("mineCount");
+
+const remainingText =
+document.getElementById("remaining");
+
+const message =
+document.getElementById("message");
+
+const comboText =
+document.getElementById("combo");
+
+const playerList =
+document.getElementById("playerList");
+
+
+document
+.querySelectorAll(".diff")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            document
+            .querySelectorAll(".diff")
+            .forEach(x =>
+                x.classList.remove(
+                    "selected"
+                )
+            );
+
+            button.classList.add(
+                "selected"
+            );
+
+            selectedLevel =
+                button.dataset.level;
+
+        }
+    );
+
+});
+
+
+function startGame() {
+
+    currentLevel =
+        levels[selectedLevel];
+
+    score = 0;
+
+    clicked = 0;
+
+    combo = 0;
+
+    gameOver = false;
+
+    timeLeft =
+        currentLevel.time;
+
+    scoreText.textContent =
+        score;
+
+    timerText.textContent =
+        timeLeft;
+
+    timerText.classList.remove(
+        "warning"
+    );
+
+    mineCountText.textContent =
+        currentLevel.mines;
+
+    remainingText.textContent =
+        20;
+
+    comboText.textContent =
+        "";
+
+    message.textContent =
+        "اختار أول زر 🔥";
+
+    startScreen
+    .classList
+    .remove("active");
+
+    resultScreen
+    .classList
+    .remove("active");
+
+    gameScreen
+    .classList
+    .add("active");
+
+    createMines();
+
+    createBoard();
+
+    startTimer();
+
+    renderPlayers();
+
+}
+
+
+function createMines() {
+
+    mines = [];
+
+    while (
+        mines.length <
+        currentLevel.mines
+    ) {
+
+        let random =
+            Math.floor(
+                Math.random() * 20
+            );
+
+        if (
+            !mines.includes(random)
+        ) {
+
+            mines.push(random);
+
+        }
+
+    }
+
+}
+
+
+/* إنشاء اللوحة */
+
+function createBoard() {
+
+    game.innerHTML = "";
+
+    for (
+        let i = 0;
+        i < 20;
+        i++
+    ) {
+
+        const cell =
+        document.createElement(
+            "button"
+        );
+
+        cell.className =
+            "cell";
+
+        /* هنا التعديل الوحيد: عرض رقم المربع */
+
+        cell.textContent =
+            i + 1;
+
+        cell.onclick = () => {
+
+            chooseCell(
+                i,
+                cell
+            );
+
+        };
+
+        game.appendChild(
+            cell
+        );
+
+    }
+
+}
+
+
+function chooseCell(
+    index,
+    cell
+) {
+
+    if (
+        gameOver ||
+        cell.disabled
+    ) {
+
+        return;
+
+    }
+
+    cell.disabled = true;
+
+    clicked++;
+
+    remainingText.textContent =
+        20 - clicked;
+
+
+    if (
+        mines.includes(index)
+    ) {
+
+        cell.textContent =
+            "💣";
+
+        cell.classList.add(
+            "mine"
+        );
+
+        combo = 0;
+
+        endGame(false);
+
+        return;
+
+    }
+
+
+    cell.textContent =
+        "✓";
+
+    cell.classList.add(
+        "safe"
+    );
+
+    combo++;
+
+    let earned =
+        currentLevel.points;
+
+
+    if (combo >= 3) {
+
+        earned +=
+            combo * 2;
+
+        comboText.textContent =
+            "🔥 COMBO x" + combo;
+
+    } else {
+
+        comboText.textContent =
+            "";
+
+    }
+
+
+    score += earned;
+
+    scoreText.textContent =
+        score;
+
+    message.textContent =
+        "+" +
+        earned +
+        " نقطة 🔥";
+
+
+    const safeCells =
+        20 -
+        currentLevel.mines;
+
+    if (
+        clicked >= safeCells
+    ) {
+
+        endGame(true);
+
+    }
+
+}
+
+
+function startTimer() {
+
+    clearInterval(
+        timerInterval
+    );
+
+    timerInterval =
+    setInterval(() => {
+
+        if (gameOver) {
+
+            clearInterval(
+                timerInterval
+            );
+
+            return;
+
+        }
+
+        timeLeft--;
+
+        timerText.textContent =
+            timeLeft;
+
+        if (
+            timeLeft <= 10
+        ) {
+
+            timerText
+            .classList
+            .add("warning");
+
+        }
+
+        if (
+            timeLeft <= 0
+        ) {
+
+            endGame(false);
+
+        }
+
+    }, 1000);
+
+}
+
+
+function endGame(won) {
+
+    if (gameOver) {
+
+        return;
+
+    }
+
+    gameOver = true;
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    document
+    .querySelectorAll(".cell")
+    .forEach(
+        (cell, index) => {
+
+            if (
+                mines.includes(index)
+            ) {
+
+                cell.textContent =
+                    "💣";
+
+                cell.classList.add(
+                    "mine"
+                );
+
+            }
+
+        }
+    );
+
+
+    setTimeout(() => {
+
+        showResult(won);
+
+    }, 700);
+
+}
+
+
+function showResult(won) {
+
+    gameScreen
+    .classList
+    .remove("active");
+
+    resultScreen
+    .classList
+    .add("active");
+
+    const icon =
+        document.getElementById(
+            "resultIcon"
+        );
+
+    const title =
+        document.getElementById(
+            "resultTitle"
+        );
+
+    const text =
+        document.getElementById(
+            "resultText"
+        );
+
+    const final =
+        document.getElementById(
+            "finalScore"
+        );
+
+    final.textContent =
+        score;
+
+
+    if (won) {
+
+        icon.textContent =
+            "🏆";
+
+        title.textContent =
+            "فزت! 🔥";
+
+        text.textContent =
+            "مبروك! فتحت كل الأزرار الآمنة.";
+
+    } else {
+
+        icon.textContent =
+            "💥";
+
+        title.textContent =
+            "انتهت اللعبة!";
+
+        text.textContent =
+            "حظ أوفر بالجولة القادمة 😈";
+
+    }
+
+}
+
+
+function backToStart() {
+
+    clearInterval(
+        timerInterval
+    );
+
+    gameScreen
+    .classList
+    .remove("active");
+
+    resultScreen
+    .classList
+    .remove("active");
+
+    startScreen
+    .classList
+    .add("active");
+
+}
+
+
+let players = [
+
+    {
+        name: "🔥 Player_1",
+        score: 450
+    },
+
+    {
+        name: "⚡ Player_2",
+        score: 320
+    },
+
+    {
+        name: "💎 Player_3",
+        score: 180
+    },
+
+    {
+        name: "👑 Player_4",
+        score: 90
+    }
+
+];
+
+
+function renderPlayers() {
+
+    playerList.innerHTML = "";
+
+    players.sort(
+        (a, b) =>
+            b.score - a.score
+    );
+
+    players.forEach(
+        (player, index) => {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+            div.className =
+                "player";
+
+            div.innerHTML = `
+
+                <span>
+                    ${index + 1}.
+                    ${player.name}
+                </span>
+
+                <b>
+                    ${player.score}
+                </b>
+
+            `;
+
+            playerList.appendChild(
+                div
+            );
+
+        }
+    );
+
+}
+
+
+renderPlayers();
+
+</script>
+
+</body>
+
+</html>
