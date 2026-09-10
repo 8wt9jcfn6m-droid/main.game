@@ -1345,6 +1345,244 @@ function renderPlayers() {
 
 renderPlayers();
 
+
+/* =========================
+   TikTok LIVE → اللعبة
+========================= */
+
+let liveSocket = null;
+
+function connectLiveServer() {
+
+    const protocol =
+        location.protocol === "https:"
+            ? "wss:"
+            : "ws:";
+
+    liveSocket =
+        new WebSocket(
+            protocol +
+            "//" +
+            location.host
+        );
+
+
+    liveSocket.onopen = () => {
+
+        console.log(
+            "Connected to game server"
+        );
+
+
+        const saved =
+            localStorage.getItem(
+                "tiktokLiveUrl"
+            );
+
+
+        const liveUrl =
+            saved ||
+            prompt(
+                "حط رابط TikTok LIVE:"
+            );
+
+
+        if (!liveUrl) {
+
+            console.log(
+                "No TikTok LIVE URL"
+            );
+
+            return;
+
+        }
+
+
+        localStorage.setItem(
+            "tiktokLiveUrl",
+            liveUrl
+        );
+
+
+        fetch(
+            "/connect?url=" +
+            encodeURIComponent(
+                liveUrl
+            )
+        )
+
+        .then(response =>
+            response.json()
+        )
+
+        .then(data => {
+
+            console.log(
+                "TikTok:",
+                data
+            );
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "TikTok connection failed:",
+                error
+            );
+
+        });
+
+    };
+
+
+    liveSocket.onmessage = event => {
+
+        try {
+
+            const data =
+                JSON.parse(
+                    event.data
+                );
+
+
+            /* تعليق TikTok اختار مربع */
+
+            if (
+                data.type === "cell"
+            ) {
+
+                const number =
+                    Number(
+                        data.cell
+                    );
+
+
+                if (
+                    number < 1 ||
+                    number > 20
+                ) {
+
+                    return;
+
+                }
+
+
+                /*
+                   TikTok يرسل:
+                   1 = المربع الأول
+                   7 = المربع السابع
+                   20 = المربع الأخير
+                */
+
+                const index =
+                    number - 1;
+
+
+                const cells =
+                    document.querySelectorAll(
+                        ".cell"
+                    );
+
+
+                const cell =
+                    cells[index];
+
+
+                if (
+                    cell &&
+                    !cell.disabled &&
+                    !gameOver
+                ) {
+
+                    console.log(
+                        "TikTok:",
+                        data.username,
+                        "اختار:",
+                        number
+                    );
+
+
+                    chooseCell(
+                        index,
+                        cell
+                    );
+
+                }
+
+            }
+
+
+            /* حالة اتصال TikTok */
+
+            if (
+                data.type === "status"
+            ) {
+
+                console.log(
+                    "TikTok LIVE status:",
+                    data.connected
+                );
+
+            }
+
+
+            /* خطأ */
+
+            if (
+                data.type === "error"
+            ) {
+
+                console.error(
+                    data.message
+                );
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "WebSocket message error:",
+                error
+            );
+
+        }
+
+    };
+
+
+    liveSocket.onclose = () => {
+
+        console.log(
+            "Server disconnected — reconnecting..."
+        );
+
+
+        setTimeout(
+            connectLiveServer,
+            3000
+        );
+
+    };
+
+
+    liveSocket.onerror = error => {
+
+        console.error(
+            "WebSocket error:",
+            error
+        );
+
+    };
+
+}
+
+
+/* تشغيل الربط */
+
+connectLiveServer();
+
 </script>
 
 </body>
